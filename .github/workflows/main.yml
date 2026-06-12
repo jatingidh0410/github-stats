@@ -44,7 +44,7 @@ jobs:
         EXCLUDED_LANGS: ${{ secrets.EXCLUDED_LANGS }}
         EXCLUDE_FORKED_REPOS: true
 
-    # Commit all changed files to the repository
+   # Commit all changed files to the repository
     - name: Commit to the repo
       run: |
         git config --global user.name "jstrieb/github-stats"
@@ -53,8 +53,8 @@ jobs:
         # Force the build to succeed, even if no files were changed
         git commit -m 'Update generated files' || true
         
-        # ADDED: Pull and rebase to integrate any remote changes before pushing
+        # THIS IS THE MISSING FIX: Pull remote changes before pushing
         git pull --rebase origin master
         
-        # UPDATED: Explicitly push to origin master
+        # Explicitly push to origin master
         git push origin master
