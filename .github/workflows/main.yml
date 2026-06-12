@@ -15,10 +15,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # UPDATED: actions/checkout bumped to v4 (Node.js 20+ support)
+    # Check out repository under $GITHUB_WORKSPACE, so the job can access it
     - uses: actions/checkout@v4
 
-    # UPDATED: actions/setup-python bumped to v5 (Node.js 20+ support)
+    # Run using Python 3.8 for consistency and aiohttp
     - name: Set up Python 3.8
       uses: actions/setup-python@v5
       with:
@@ -44,7 +44,7 @@ jobs:
         EXCLUDED_LANGS: ${{ secrets.EXCLUDED_LANGS }}
         EXCLUDE_FORKED_REPOS: true
 
-   # Commit all changed files to the repository
+    # Commit all changed files to the repository
     - name: Commit to the repo
       run: |
         git config --global user.name "jstrieb/github-stats"
@@ -52,9 +52,4 @@ jobs:
         git add .
         # Force the build to succeed, even if no files were changed
         git commit -m 'Update generated files' || true
-        
-        # THIS IS THE MISSING FIX: Pull remote changes before pushing
-        git pull --rebase origin master
-        
-        # Explicitly push to origin master
-        git push origin master
+        git push
